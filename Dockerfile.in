@@ -1,6 +1,6 @@
 ## -*- docker-image-name: "spotify/bigtable-emulator" -*-
 
-FROM golang:1.7
+FROM golang:1.24
 MAINTAINER Robert Gruener "robertg@spotify.com"
 
 # Install netcat
