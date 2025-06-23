@@ -1,5 +1,5 @@
 # You can find the new timestamped tags here: https://hub.docker.com/r/gitpod/workspace-full/tags
-FROM gitpod/workspace-full:2022-05-08-14-31-53
+FROM gitpod/workspace-full:2025-06-18-16-47-14
 
 USER root
 RUN cd /tmp && curl https://cli.pipedream.com/linux/amd64/latest/pd.zip --output pd.zip \
