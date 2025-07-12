@@ -1,0 +1,85 @@
+steps:
+  - label: "{{matrix}}"
+    matrix:
+        - "Multithreaded"
+        - "OOPWeakConvergence"
+        - "IIPWeakConvergence"
+        - "WeakConvergence2"
+        - "WeakConvergence3"
+        - "WeakConvergence6"
+        - "WeakAdaptiveCPU"
+    env:
+      GROUP: "{{matrix}}"
+    plugins:
+      - JuliaCI/julia#v1:
+          version: "1.10"
+      - JuliaCI/julia-test#v1:
+          coverage: false
+          julia_args: "--threads=auto"
+    agents:
+      os: "linux"
+      queue: "juliaecosystem"
+      arch: "x86_64"
+    timeout_in_minutes: 240
+    # Don't run Buildkite if the commit message includes the text [skip tests]
+    if: build.message !~ /\[skip tests\]/
+
+  - label: "{{matrix}}"
+    matrix:
+        - "SROCKC2WeakConvergence"
+        - "WeakConvergence5"
+    env:
+      GROUP: "{{matrix}}"
+    plugins:
+      - JuliaCI/julia#v1:
+          version: "1.10"
+      - JuliaCI/julia-test#v1:
+          coverage: false
+          julia_args: "--threads=auto"
+    agents:
+      os: "linux"
+      queue: "juliaecosystem"
+      arch: "x86_64"
+      exclusive: true
+    timeout_in_minutes: 240
+    # Don't run Buildkite if the commit message includes the text [skip tests]
+    if: build.message !~ /\[skip tests\]/
+
+  # jobs that have an extended timeout of 360 minutes
+  - label: "{{matrix}}"
+    matrix:
+        - "WeakConvergence4"
+    env:
+      GROUP: "{{matrix}}"
+    plugins:
+      - JuliaCI/julia#v1:
+          version: "1.10"
+      - JuliaCI/julia-test#v1:
+          coverage: false
+          julia_args: "--threads=auto"
+    agents:
+      os: "linux"
+      queue: "juliaecosystem"
+      arch: "x86_64"
+    timeout_in_minutes: 360
+    # Don't run Buildkite if the commit message includes the text [skip tests]
+    if: build.message !~ /\[skip tests\]/
+
+  - label: "WeakAdaptiveGPU"
+    plugins:
+      - JuliaCI/julia#v1:
+          version: "1.10"
+      - JuliaCI/julia-test#v1:
+          coverage: false
+    agents:
+      queue: "juliagpu"
+      cuda: "*"
+    env:
+      GROUP: 'WeakAdaptiveGPU'
+    timeout_in_minutes: 240
+    # Don't run Buildkite if the commit message includes the text [skip tests]
+    if: build.message !~ /\[skip tests\]/
+
+env:
+  JULIA_PKG_SERVER: "" # it often struggles with our large artifacts
+  # SECRET_CODECOV_TOKEN: "..."
